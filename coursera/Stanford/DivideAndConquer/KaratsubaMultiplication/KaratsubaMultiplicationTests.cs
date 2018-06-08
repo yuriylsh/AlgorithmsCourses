@@ -32,8 +32,8 @@ namespace KaratsubaMultiplication
             var ac = Multiply(a, c);
             var bd = Multiply(b, d);
             var aPlusBTimesCPlusD = Multiply(Add(a, b), Add(c, d));
-            var third = aPlusBTimesCPlusD.DoSubstraction(ac).DoSubstraction(bd);
-            var result = ac.ByTenToPower(n).DoAddition(third.ByTenToPower(n % 2 == 0 ? halfN : halfN + 1)).DoAddition(bd);
+            var gaussTrick = aPlusBTimesCPlusD.DoSubstraction(ac).DoSubstraction(bd);
+            var result = ac.ByTenToPower(n).DoAddition(gaussTrick.ByTenToPower(n % 2 == 0 ? halfN : halfN + 1)).DoAddition(bd);
             return result;
         }
 
