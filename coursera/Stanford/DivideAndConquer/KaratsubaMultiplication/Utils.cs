@@ -36,11 +36,8 @@ namespace KaratsubaMultiplication
         public static string GetMathOperationResult(this IEnumerable<char> input)
             => new string(input.Reverse().ToArray());
 
-        public static ReadOnlySpan<char> GrowNumberStringToLength(in ReadOnlySpan<char> numberString, int length) => numberString.Length == length
-            ? numberString
-            : ZeroesString(length - numberString.Length) + new string(numberString);
-
-        public static string ByTenToPower(this string input, int power) => input + ZeroesString(power);
+        public static string ByTenToPower(this string input, int power)
+            => input.Length == 1 && input[0] == '0' ? "0" : input + ZeroesString(power);
 
         private static string ZeroesString(int count)
         {
@@ -53,6 +50,9 @@ namespace KaratsubaMultiplication
         }
 
         public static string TrimLeadingZeroes(this string final) => final[0] == '0' ? new string(final.SkipWhile(ch => ch == '0').ToArray()) : final;
+
+        public static ReadOnlySpan<char> TakeLast(this ReadOnlySpan<char> input, int n)
+            => n >= input.Length ? input : input.Slice(input.Length - n, n);
 
         public static string DoSubstraction(this string first, string second) => KaratsubaMultiplicationTests.Substract(first, second);
 
