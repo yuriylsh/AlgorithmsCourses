@@ -9,29 +9,24 @@ namespace NumberOfInversions
 {
     public class InputLoading
     {
+        public const string SampleInputFileName = "sampleinput.txt";
+        public const string ProblemInputFileName = "probleminput.txt";
+
         public static int[] LoadInput(string fileName) => 
-            File.ReadLines(Path.Combine(CurrentDirectoryPath, fileName))
+            File.ReadLines(GetInputPath(fileName))
                 .TakeWhile(line => line.Length > 0)
                 .Select(int.Parse)
                 .ToArray();
 
         [Fact]
-        private void GettingSampleInput()
-        {
-            var result = LoadInput("sampleinput.txt");
-
-            result.Should().Equal(3, 1, 5, 4, 2);
-        }
+        private void LoadInput_Sample_ReturnsSampleInputAsArray()
+            => LoadInput(SampleInputFileName).Should().Equal(3, 1, 5, 4, 2);
 
         [Fact]
-        private void GettingProblemInput()
-        {
-            var result = LoadInput("probleminput.txt");
+        private void LoadInput_Problem_ReturnsProblemInputAsArray()
+            => LoadInput(ProblemInputFileName).Should().HaveCount(100_000);
 
-            result.Should().HaveCount(100_000);
-        }
-
-        private static string _currentDirectoryPath;
+        private static string GetInputPath(string fileName) => Path.Combine(CurrentDirectoryPath, fileName);
 
         private static string CurrentDirectoryPath 
         {
@@ -48,14 +43,12 @@ namespace NumberOfInversions
             }
         }
 
-        [Theory]
-        [InlineData("sampleinput.txt")]
-        [InlineData("probleminput.txt")]
-        private void LoadingSampleInputTests(string fileName)
-        {
-            var filePath = Path.Combine(CurrentDirectoryPath, fileName);
+        private static string _currentDirectoryPath; 
 
-            File.Exists(filePath).Should().BeTrue();
-        }
+        [Theory]
+        [InlineData(SampleInputFileName)]
+        [InlineData(ProblemInputFileName)]
+        private void InputFilesExistTests(string fileName)
+            => File.Exists(GetInputPath(fileName)).Should().BeTrue();
     }
 }
