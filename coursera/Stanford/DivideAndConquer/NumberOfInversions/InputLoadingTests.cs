@@ -28,20 +28,8 @@ namespace NumberOfInversions
 
         private static string GetInputPath(string fileName) => Path.Combine(CurrentDirectoryPath, fileName);
 
-        private static string CurrentDirectoryPath 
-        {
-            get
-            {
-                if(_currentDirectoryPath == null)
-                {
-                    var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                    var path = Uri.UnescapeDataString(new UriBuilder(codeBase).Path);
-                    _currentDirectoryPath = Path.GetDirectoryName(path);
-
-                }
-                return _currentDirectoryPath;
-            }
-        }
+        private static string CurrentDirectoryPath => _currentDirectoryPath 
+            ?? (_currentDirectoryPath = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)));
 
         private static string _currentDirectoryPath; 
 
